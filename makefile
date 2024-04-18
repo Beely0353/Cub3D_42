@@ -22,7 +22,7 @@ SRCS 		=	main.c
 OBJS		=	$(addprefix ${OBJECTS}/, $(SRCS:.c=.o))
 
 MLX_DIR 	=	./minilibx-linux/
-CFLAGS		=	-Wall -Wextra -Werror -I$(MLX_DIR) -Iinclude
+CFLAGS		=	-Wall -Wextra -I$(MLX_DIR) -Iinclude -lm
 CC			=	gcc
 CINCLUDES	=	-I ${INCLUDES}
 
