@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main1.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: biaroun <biaroun@student.42nice.fr> >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 14:58:13 by biaroun           #+#    #+#             */
-/*   Updated: 2024/05/06 14:07:21 by biaroun          ###   ########.fr       */
+/*   Updated: 2024/05/06 13:14:51 by biaroun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,7 @@ void move_player(map *map) {
     map->prev_p_angle  = map->p_angle;
     if (map->key_states[KEY_Q]) {
         map->p_angle -= 0.1;
+        clear_player(map->mlx, map->mlx_win, map);
         if (map->p_angle < 0) {
             map->p_angle += 2 * PI;
         }
@@ -211,6 +212,7 @@ void move_player(map *map) {
     }
     if (map->key_states[KEY_D]) {
         map->p_angle += 0.1;
+        clear_player(map->mlx, map->mlx_win, map);
         if (map->p_angle > 2*PI) {
             map->p_angle -= 2 * PI;
         }
@@ -237,7 +239,7 @@ void move_player(map *map) {
 
         if (new_x >= 0 && new_x <= (map->mapX - 1) * map->mapS &&
             new_y >= 0 && new_y <= (map->mapY - 1) * map->mapS) {
-            //clear_player(map->mlx, map->mlx_win, map);
+            clear_player(map->mlx, map->mlx_win, map);
             mlx_clear_window(map->mlx, map->mlx_win);
             //mlx_put_image_to_window(map->mlx, map->mlx_win, map->wall, 128, 128);
             drawMap2D(map);
@@ -283,10 +285,10 @@ int main(void) {
     map.p_size   = 9;
     map.mapX = 8;
     map.mapY = 8;
-    map.mapS = 64;
+    map.mapS = 32;
     map.FOV[0] = 0;
     map.FOV[0] = 0.66;
-    int size = 16;
+    int size;
     
     map.map = createMapArray();
     for (i = 0; i < 65536; i++) {
