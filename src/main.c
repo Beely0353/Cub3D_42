@@ -6,7 +6,7 @@
 /*   By: biaroun <biaroun@student.42nice.fr> >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 14:58:13 by biaroun           #+#    #+#             */
-/*   Updated: 2024/05/06 14:07:21 by biaroun          ###   ########.fr       */
+/*   Updated: 2024/05/09 14:12:07 by biaroun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #define KEY_N 110
 #define KEY_ESC 65307
 #define PI 3.1415926535
+#define P2 PI/2
+#define P3 3*PI/2
 
 typedef struct map {
     void *mlx;
@@ -31,6 +33,7 @@ typedef struct map {
     int mapY;
     int mapS;
     char **map;
+    int  *map2;
 
     double p_pos[2];
     double pd_pos[2];
@@ -102,20 +105,23 @@ void draw_line(map *map, int x0, int y0, int x1, int y1, int color) {
 
 void put_player(void *mlx, void *mlx_win, map *map) 
 {
-    int i;
+    int i = 0;
     int j;
 
-    i = -1;
-    j = -1;
-    while (++i != map->p_size)
-    {
-        while (++j != map->p_size)
-            mlx_pixel_put(mlx, mlx_win, map->p_pos[0] + i, map->p_pos[1] + j, 0xFF0000);
-        j = -1;
+    int half_size = map->p_size / 2;
+
+    while (i < map->p_size) {
+        j = 0;
+        while (j < map->p_size) {
+            mlx_pixel_put(mlx, mlx_win, map->p_pos[0] + i - half_size, map->p_pos[1] + j - half_size, 0xFF0000);
+            j++;
+        }
+        i++;
     }
+
     // Draw line representing player's direction
-    int x0 = map->p_pos[0] + map->p_size / 2;
-    int y0 = map->p_pos[1] + map->p_size / 2;
+    int x0 = map->p_pos[0];
+    int y0 = map->p_pos[1];
     int x1 = x0 + cos(map->prev_p_angle) * 20;
     int y1 = y0 + sin(map->prev_p_angle) * 20;
     draw_line(map, x0, y0, x1, y1, 0xFF0000);
@@ -170,6 +176,105 @@ void drawMap2D (map *map)
             else 
                 mlx_put_image_to_window(map->mlx, map->mlx_win, map->ground, x * map->mapS, y * map->mapS);
         }
+    }
+}
+
+void RaysMap3D(map *map)
+{
+    int r, mx, my, mp, dof;
+    double rx, ry, ra, xo, yo, aTan, nTan;
+
+    r = 0;
+    ra = map->p_angle;
+    while (r < 1)
+    {
+        //---Check horizontal line---
+        dof = 0;
+        aTan = -1/tan(ra);
+        if (ra > PI)
+        {
+            ry = (((int)map->p_pos[1] >> 6)<< 6) - 0.0001;
+            rx = (map->p_pos[1] - ry) * aTan + map->p_pos[0];
+            yo = -64;
+            xo = -yo * aTan;
+        }
+        if (ra < PI)
+        {
+            ry = (((int)map->p_pos[1] >> 6)<< 6) + 64;
+            rx = (map->p_pos[1] - ry) * aTan + map->p_pos[0];
+            yo = 64;
+            xo = -yo * aTan;
+        }
+        if (ra==0 || ra == PI)
+        {
+            rx = map->p_pos[0];
+            ry = map->p_pos[1];
+            dof = 8;
+        }
+        while (dof < 8)
+        {
+            mx = (int)(rx) >> 6;
+            my = (int) (rx) >> 6;
+            mp = my * map->mapX + mx;
+            if (mp>0 && mp < (map->mapX * map->mapY) && map->map2[mp]== 1)
+            {
+                dof = 8;
+            }
+            else 
+            {
+                rx += xo;
+                ry += yo;
+                dof++;
+            }
+        }
+        int x0 = map->p_pos[0];
+        int y0 = map->p_pos[1];
+        draw_line(map, x0, y0, rx, ry, 0x0000FF);
+        r++;
+
+        //---Check vetical line---
+        dof = 0;
+        nTan = -tan(ra);
+        if (ra > P2 && ra < P3)
+        {
+            rx = (((int)map->p_pos[0] >> 6)<< 6) - 0.0001;
+            ry = (map->p_pos[1] - rx) * nTan + map->p_pos[1];
+            xo = -64;
+            yo = -xo * nTan;
+        }
+        if (ra < P2 || ra > P3)
+        {
+            rx = (((int)map->p_pos[0] >> 6)<< 6) + 64;
+            ry = (map->p_pos[0] - rx) * nTan + map->p_pos[1];
+            xo = 64;
+            yo = -xo * nTan;
+        }
+        if (ra==0 || ra == PI)
+        {
+            rx = map->p_pos[0];
+            ry = map->p_pos[1];
+            dof = 8;
+        }
+        while (dof < 8)
+        {
+            mx = (int)(rx) >> 6;
+            my = (int) (rx) >> 6;
+            mp = my * map->mapX + mx;
+            if (mp>0 && mp < (map->mapX * map->mapY) && map->map2[mp]== 1)
+            {
+                dof = 8;
+            }
+            else 
+            {
+                rx += xo;
+                ry += yo;
+                dof++;
+            }
+        }
+        int x20 = map->p_pos[0];
+        int y20 = map->p_pos[1];
+        draw_line(map, x0, y0, rx, ry, 0x00FF00);
+        r++;
     }
 }
 
@@ -244,6 +349,7 @@ void move_player(map *map) {
             map->p_pos[0] += x;
             map->p_pos[1] += y;
             put_player(map->mlx, map->mlx_win, map);
+            RaysMap3D(map);
             usleep(30000);
         }
     }
@@ -277,17 +383,30 @@ int main(void) {
     map.win_size[1] = 512;
     map.p_pos[0] = 100;
     map.p_pos[1] = 100;
-    map.p_angle  = 0;
+    map.p_angle  = 90;
     map.pd_pos[0] = cos(map.p_angle) * 5;
     map.pd_pos[1] = sin(map.p_angle) * 5;
-    map.p_size   = 9;
+    map.p_size   = 8;
     map.mapX = 8;
     map.mapY = 8;
     map.mapS = 64;
     map.FOV[0] = 0;
     map.FOV[0] = 0.66;
-    int size = 16;
+
+    int size;
+int map3[]=
+{
+ 1,1,1,1,1,1,1,1,
+ 1,0,1,0,0,0,0,1,
+ 1,0,1,0,0,0,0,1,
+ 1,0,1,0,0,0,0,1,
+ 1,0,0,0,0,0,0,1,
+ 1,0,0,0,0,1,0,1,
+ 1,0,0,0,0,0,0,1,
+ 1,1,1,1,1,1,1,1,	
+};
     
+    map.map2 = map3;
     map.map = createMapArray();
     for (i = 0; i < 65536; i++) {
         map.key_states[i] = 0;
