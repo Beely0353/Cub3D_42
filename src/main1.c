@@ -6,7 +6,7 @@
 /*   By: biaroun <biaroun@student.42nice.fr> >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 14:58:13 by biaroun           #+#    #+#             */
-/*   Updated: 2024/05/06 13:14:51 by biaroun          ###   ########.fr       */
+/*   Updated: 2024/05/13 17:53:17 by biaroun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,6 +269,113 @@ char** createMapArray() {
     return map;
 }
 
+int raycasting(map *map)
+{
+    double posX = 22, posY = 12;
+    double dirX = -1, dirY = 0;
+    double planeX = 0, planeY = 0.66;
+    int h = 20;
+    
+    double time = 0;
+    double oldTime = 0;
+    int x = 0;
+    int w = 1024; //longueur ecran
+    
+    while (1)
+    {
+        x = 0;
+        while (x < w)
+        {
+            double cameraX = 2 * x / (double) w - 1;
+            double rayDirX = dirX + planeX * cameraX;
+            double rayDirY = dirY + planeY * cameraX;
+            
+            //which box of the map we're in
+            int mapX = (int) posX;
+            int mapY = (int) posY;
+
+            //length of ray from current position to next x or y-side
+            double sideDistX;
+            double sideDistY;
+
+            //length of ray from one x or y-side to next x or y-side
+            double deltaDistX = (rayDirX == 0) ? 1e30 : abs(1 / rayDirX);
+            double deltaDistY = (rayDirY == 0) ? 1e30 : abs(1 / rayDirY);
+            double perpWallDist;
+
+            //what direction to step in x or y-direction (either +1 or -1)
+            int stepX;
+            int stepY;
+
+            int hit = 0; //was there a wall hit?
+            int side; //was a NS or a EW wall hit?
+            
+
+            //calculate step and initial sideDist
+            if (rayDirX < 0)
+            {
+                stepX = -1;
+                sideDistX = (posX - mapX) * deltaDistX;
+            }
+            else
+            {
+                stepX = 1;
+                sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+            }
+            if (rayDirY < 0)
+            {
+                stepY = -1;
+                sideDistY = (posY - mapY) * deltaDistY;
+            }
+            else
+            {
+                stepY = 1;
+                sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+            }
+
+
+            //perform DDA
+            while (hit == 0)
+            {
+                //jump to next map square, either in x-direction, or in y-direction
+                if (sideDistX < sideDistY)
+                {
+                    sideDistX += deltaDistX;
+                    mapX += stepX;
+                    side = 0;
+                }
+                else
+                {
+                    sideDistY += deltaDistY;
+                    mapY += stepY;
+                    side = 1;
+                }
+                //Check if ray has hit a wall
+                if (map->map[mapX][mapY] > 0) 
+                    hit = 1;
+            }
+
+            if(side == 0) 
+                perpWallDist = (sideDistX - deltaDistX);
+            else          
+                perpWallDist = (sideDistY - deltaDistY); 
+
+
+            //Calculate height of line to draw on screen
+            int lineHeight = (int)(h / perpWallDist);
+
+            //calculate lowest and highest pixel to fill in current stripe
+            int drawStart = -lineHeight / 2 + h / 2;
+            if(drawStart < 0)drawStart = 0;
+            int drawEnd = lineHeight / 2 + h / 2;
+            if(drawEnd >= h)drawEnd = h - 1;
+            draw_line(map, 0, drawStart, 0, drawEnd, 0xffffff);
+            
+            x++;
+        }
+    }
+}
+
 int main(void) {
     map map;
     void *img;
@@ -301,11 +408,12 @@ int main(void) {
     map.ground = mlx_xpm_file_to_image(map.mlx, "src/ground.xpm", &size, &size);
     //mlx_put_image_to_window(map.mlx, map.mlx_win, map.wall, 0, 0);
     //put_bg(map.mlx, map.mlx_win, &map);
-    drawMap2D(&map);
+    raycasting(&map);
+    /*drawMap2D(&map);
     put_player(map.mlx, map.mlx_win, &map);
     mlx_hook(map.mlx_win, 2, 1L<<0, (void *)key_press, &map);
     mlx_hook(map.mlx_win, 3, 1L<<1, (void *)key_release, &map);
-    mlx_loop_hook(map.mlx, (void *)move_player, &map);
+    mlx_loop_hook(map.mlx, (void *)move_player, &map);*/
     mlx_loop(map.mlx);
     return 0;
 }

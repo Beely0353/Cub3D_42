@@ -17,7 +17,7 @@ SOURCES		=	./src
 INCLUDES	=	./include
 OBJECTS		=	./bin
 
-SRCS 		=	main.c
+SRCS 		=	main1.c
 
 OBJS		=	$(addprefix ${OBJECTS}/, $(SRCS:.c=.o))
 
