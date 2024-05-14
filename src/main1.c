@@ -6,7 +6,7 @@
 /*   By: biaroun <biaroun@student.42nice.fr> >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 14:58:13 by biaroun           #+#    #+#             */
-/*   Updated: 2024/05/13 17:53:17 by biaroun          ###   ########.fr       */
+/*   Updated: 2024/05/14 14:12:58 by biaroun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct map {
     int mapY;
     int mapS;
     char **map;
+    int  **map3;
 
     double p_pos[2];
     double pd_pos[2];
@@ -271,7 +272,7 @@ char** createMapArray() {
 
 int raycasting(map *map)
 {
-    double posX = 22, posY = 12;
+    double posX = 4, posY = 4;
     double dirX = -1, dirY = 0;
     double planeX = 0, planeY = 0.66;
     int h = 20;
@@ -281,8 +282,8 @@ int raycasting(map *map)
     int x = 0;
     int w = 1024; //longueur ecran
     
-    while (1)
-    {
+    /*while (1)
+    {*/
         x = 0;
         while (x < w)
         {
@@ -350,8 +351,10 @@ int raycasting(map *map)
                     mapY += stepY;
                     side = 1;
                 }
+                printf("test = %d / %d\n", mapX, mapY);
+                printf("test2 = %d\n", map->map3[mapX][mapY]);
                 //Check if ray has hit a wall
-                if (map->map[mapX][mapY] > 0) 
+                if (map->map3[mapX][mapY] > 0) 
                     hit = 1;
             }
 
@@ -360,7 +363,7 @@ int raycasting(map *map)
             else          
                 perpWallDist = (sideDistY - deltaDistY); 
 
-
+            printf("test1 \n");
             //Calculate height of line to draw on screen
             int lineHeight = (int)(h / perpWallDist);
 
@@ -369,11 +372,38 @@ int raycasting(map *map)
             if(drawStart < 0)drawStart = 0;
             int drawEnd = lineHeight / 2 + h / 2;
             if(drawEnd >= h)drawEnd = h - 1;
-            draw_line(map, 0, drawStart, 0, drawEnd, 0xffffff);
+            draw_line(map, 0, drawEnd, 0, drawStart, 0xFF0000);
             
             x++;
         }
+    //}
+}
+
+int** createMap3Array() {
+    // Allouer de la mémoire pour le tableau de pointeurs
+    int** map = (int**)malloc(8 * sizeof(int*));
+
+    // Définition du schéma du tableau
+    int schema[8][8] = {
+        {1, 1, 1, 1, 1, 1, 1, 1},
+        {1, 0, 1, 0, 0, 0, 0, 1},
+        {1, 0, 1, 0, 0, 0, 0, 1},
+        {1, 0, 1, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 1},
+        {1, 0, 0, 0, 0, 1, 0, 1},
+        {1, 0, 0, 0, 0, 0, 0, 1},
+        {1, 1, 1, 1, 1, 1, 1, 1}
+    };
+
+    // Allouer de la mémoire et initialiser chaque ligne du tableau en utilisant les boucles
+    for (int i = 0; i < 8; i++) {
+        map[i] = (int*)malloc(8 * sizeof(int));
+        for (int j = 0; j < 8; j++) {
+            map[i][j] = schema[i][j];
+        }
     }
+
+    return map;
 }
 
 int main(void) {
@@ -402,6 +432,7 @@ int main(void) {
         map.key_states[i] = 0;
     }
 
+    map.map3 = createMap3Array();
     map.mlx = mlx_init();
     map.mlx_win = mlx_new_window(map.mlx, 1024, 512, "Hello world!");
     map.wall = mlx_xpm_file_to_image(map.mlx, "src/wall.xpm", &size, &size);
