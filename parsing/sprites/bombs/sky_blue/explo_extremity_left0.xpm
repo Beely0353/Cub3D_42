@@ -1,0 +1,31 @@
+/* XPM */
+static char *result[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 9 1 ",
+"  c none",
+". c #08B8D0",
+"X c #008090",
+"o c #50C8F8",
+"O c #60E8F8",
+"+ c #B0F0F8",
+"@ c #D0F8F8",
+"# c #F8F8F8",
+"$ c white",
+/* pixels */
+"                ",
+"                ",
+"          ..XX  ",
+"        .oo..oXX",
+"     .ooooOooOoo",
+"  X.oooOOOOOOOOO",
+" .ooOOOO+++++++@",
+".ooOO++++@@@@@@@",
+" .oOO+++@@@#@@@#",
+".oooOOO++++@++@@",
+"  X.ooOOOO+O+O++",
+"     .oooOOOOOOO",
+"        .oooOooo",
+"          ...XX.",
+"                ",
+"                "
+};

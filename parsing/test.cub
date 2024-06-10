@@ -1,0 +1,17 @@
+NO texture/biaroun.xpm
+SO texture/ground.xpm
+WE texture/wall.xpm
+EA texture/wallbed.xpm
+
+F 250,255,0
+C 0,0,255
+
+
+11111111
+10100001
+10100S01
+10100001
+10000001
+10000001
+11111011
+     1
