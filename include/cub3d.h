@@ -6,7 +6,7 @@
 /*   By: biaroun <biaroun@student.42nice.fr> >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 14:53:19 by biaroun           #+#    #+#             */
-/*   Updated: 2024/06/11 22:25:05 by biaroun          ###   ########.fr       */
+/*   Updated: 2024/06/11 23:19:52 by biaroun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,14 +158,14 @@ void	*make_data(t_cub3d *game, char *file, t_dep s);
 void	make_data_map(t_cub3d *game);
 
 //-------------------UTILS-------------------//
-int	open_fd(char *file);
+int		open_fd(char *file);
 size_t	get_nb_inst(char **map, char c);
-int	ft_close(int val_exit);
+int		ft_close(int val_exit);
 size_t	get_nb_line(char *file);
 char	**get_map(char *file);
 t_pos	get_coord(char **map, char c);
 t_pos	get_suiv(char **map, t_pos ind, char c);
-int	get_colour(int *tab, char *line);
+int		get_colour(int *tab, char *line);
 void	get_file(t_cub3d *game, char *file);
 void	str_exist(char *line, t_img *textures, int count);
 //---------GNL
@@ -179,14 +179,17 @@ void	init_game(t_cub3d *game, char *file);
 
 //-------------------PARSING-------------------//
 void	flood_fill(char **map, size_t pos_x, size_t pos_y);
-int	check_open(char **map);
-int	check_path(char **map);
-int	check_map(char **map);
+int		check_open(char **map);
+int		check_path(char **map);
+int		check_map(char **map);
+void 	init_player(t_cub3d *cub);
+void 	init_tex(t_cub3d *cub);
+void 	init_ray(t_cub3d *cub);
 
 //-------------------LIBFT-------------------//
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
-int	ft_strncmp(char const *s1, char const *s2, size_t n);
+int		ft_strncmp(char const *s1, char const *s2, size_t n);
 size_t	ft_strlen(char const *str);
 char	*ft_strdup(char *src);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
@@ -195,7 +198,6 @@ char	*ft_strjoin(char const *str, char const *s);
 size_t	ft_strlcat(char *dest, char const *src, size_t n);
 
 
-/*
 //-------------------RAYCASTING-------------------//
 void 	raycasting(t_cub3d *cub);
 void 	build_draw(t_cub3d *cub);
@@ -217,7 +219,6 @@ char	*ft_strchr(const char *s, int c);
 
 void free_all(t_cub3d *cub);
 
-*/
 
 
 #endif
