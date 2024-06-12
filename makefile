@@ -17,14 +17,10 @@ SOURCES		=	./src
 INCLUDES	=	./include
 OBJECTS		=	./bin
 
-SRCS			=	cub3d.c \
-					$(addprefix parsing/, cub3d_data.c cub3d_game_utils.c cub3d_init.c cub3d_map_parsing.c cub3d_map_utils.c)\
-					$(addprefix utils/, ft_strfd.c ft_strutils.c get_next_line_bonus.c utils.c str_utils.c str_utils2.c)
-				
-
-#main1.c move.c\
-#				$(addprefix raycasting/, raycasting.c raycasting2.c raycasting_utils.c)\
-#				$(addprefix utils/, utils.c str_utils.c str_utils2.c gnl.c)
+SRCS			=	cub3d.c cub3d_init.c cub3d_data.c \
+					$(addprefix utils/, ft_strfd.c ft_strutils.c get_next_line_bonus.c utils.c str_utils.c str_utils2.c) \
+					$(addprefix parsing/, cub3d_game_utils.c cub3d_map_parsing.c cub3d_map_utils.c parse_ray.c) \
+					$(addprefix raycasting/, raycasting.c raycasting2.c raycasting_utils.c) move.c \
 
 
 OBJS		=	$(addprefix ${OBJECTS}/, $(SRCS:.c=.o))

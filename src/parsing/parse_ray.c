@@ -69,12 +69,19 @@ void init_player(t_cub3d *cub)
 
 void init_tex(t_cub3d *cub)
 {
-	cub->imgs->img = mlx_new_image(cub->mlx, WIDTH, HEIGHT);
-	cub->imgs->addr = mlx_get_data_addr(cub->imgs->img, &cub->imgs->bits_per_pixel, &cub->imgs->line_length, &cub->imgs->endian);
-	cub->textures[0]->addr = mlx_get_data_addr(cub->textures[0]->img, &cub->textures[0].bits_per_pixel, &cub->textures[0]->line_length, &cub->textures[0]->endian);
-	cub->textures[1]->addr = mlx_get_data_addr(cub->textures[1]->img, &cub->textures[1]->bits_per_pixel, &cub->textures[1]->line_length, &cub->textures[1]->endian);
-	cub->textures[2]->addr = mlx_get_data_addr(cub->textures[2]->img, &cub->textures[2]->bits_per_pixel, &cub->textures[2]->line_length, &cub->textures[2]->endian);
-	cub->textures[3]->addr = mlx_get_data_addr(cub->textures[3]->img, &cub->textures[3]->bits_per_pixel, &cub->textures[3]->line_length, &cub->textures[3]->endian);
+	int i;
+
+	cub->imgs.img = mlx_new_image(cub->mlx, WIDTH, HEIGHT);
+	cub->imgs.addr = mlx_get_data_addr(cub->imgs.img, &cub->imgs.bits_per_pixel, &cub->imgs.line_length, &cub->imgs.endian);
+	i = -1;
+	while (++i < NB_DIR)
+	{
+
+		if (cub->textures[i].addr)
+			free(cub->textures[i].addr);
+		cub->textures[i].addr = mlx_get_data_addr(cub->textures[i].img, &cub->textures[i].bits_per_pixel,
+			&cub->textures[i].line_length, &cub->textures[i].endian);
+	}
 }
 
 void init_ray(t_cub3d *cub)

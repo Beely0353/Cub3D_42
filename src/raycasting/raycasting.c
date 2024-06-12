@@ -107,5 +107,5 @@ void	raycasting(t_cub3d *cub)
 		build_draw(cub);
 		x++;
 	}
-	mlx_put_image_to_window(cub->mlx, cub->win, cub->imgs->img, 0, 0);
+	mlx_put_image_to_window(cub->mlx, cub->win, cub->imgs.img, 0, 0);
 }

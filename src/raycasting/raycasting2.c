@@ -23,7 +23,7 @@ void	set_floor(t_cub3d *cub)
 		y = HEIGHT;
 	while (y < HEIGHT)
 	{
-		my_mlx_pixel_put(cub->imgs, x, y, \
+		my_mlx_pixel_put(&cub->imgs, x, y, \
 		create_trgb(0, cub->floor[0], cub->floor[1], cub->floor[2]));
 		y++;
 	}
@@ -50,7 +50,7 @@ void	set_wall(t_cub3d *cub)
 	{
 		if (y >= HEIGHT)
 			break ;
-		my_mlx_pixel_put(cub->imgs, cub->x, y, \
+		my_mlx_pixel_put(&cub->imgs, cub->x, y, \
 		choose_color(texture, cub->wallX * (double)texture->width, y_texture));
 		y++;
 		y_texture += step;
@@ -66,7 +66,7 @@ void	set_sky(t_cub3d *cub)
 	y = 0;
 	while (y < cub->drawStart)
 	{
-		my_mlx_pixel_put(cub->imgs, x, y, \
+		my_mlx_pixel_put(&cub->imgs, x, y, \
 		create_trgb(0, cub->sky[0], cub->sky[1], cub->sky[2]));
 		y++;
 	}

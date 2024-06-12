@@ -98,8 +98,10 @@ void	turn_left(t_cub3d *cub)
 
 void	move_player(t_cub3d *cub)
 {
-	if (cub->key_states[KEY_ESC])
-		free_all(cub);
+//	if (cub->key_states[KEY_ESC])
+//		free_all(cub);
+
+
 	forward_backward(cub);
 	right_left(cub);
 	turn_right(cub);

@@ -38,12 +38,12 @@ int	choose_color(t_img *img, int x, int y)
 t_img	*get_wall(t_cub3d *cub)//a changer
 {
 	if (cub->side && cub->step[1] < 0)
-		return (cub->textures[1]);
+		return (&cub->textures[1]);
 	if (cub->side && cub->step[1] > 0)
-		return (cub->textures[3]);
+		return (&cub->textures[3]);
 	if (!cub->side && cub->step[0] < 0)
-		return (cub->textures[2]);
+		return (&cub->textures[2]);
 	if (!cub->side && cub->step[0] > 0)
-		return (cub->textures[0]);
-	return (cub->textures[1]);
+		return (&cub->textures[0]);
+	return (&cub->textures[1]);
 }
