@@ -6,7 +6,7 @@
 /*   By: biaroun <biaroun@student.42nice.fr> >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:14:41 by biaroun           #+#    #+#             */
-/*   Updated: 2024/06/11 22:11:01 by biaroun          ###   ########.fr       */
+/*   Updated: 2024/06/13 19:23:28 by biaroun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,8 @@ void	turn_left(t_cub3d *cub)
 
 void	move_player(t_cub3d *cub)
 {
-//	if (cub->key_states[KEY_ESC])
-//		free_all(cub);
-
-
+	if (cub->key_states[KEY_ESC])
+		exit(1);
 	forward_backward(cub);
 	right_left(cub);
 	turn_right(cub);
@@ -110,6 +108,5 @@ void	move_player(t_cub3d *cub)
 	{
 		cub->m = 0;
 		raycasting(cub);
-		usleep(3000);
 	}
 }

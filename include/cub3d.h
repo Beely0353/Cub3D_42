@@ -6,7 +6,7 @@
 /*   By: biaroun <biaroun@student.42nice.fr> >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 14:53:19 by biaroun           #+#    #+#             */
-/*   Updated: 2024/06/11 23:19:52 by biaroun          ###   ########.fr       */
+/*   Updated: 2024/06/13 19:30:37 by biaroun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@
 # define KEY_ESC 65307
 
 # define PI 3.1415926535
-# define MOVEMENT 0.2
-# define ROTATION 0.05
+# define MOVEMENT 0.06
+# define ROTATION 0.005
 
 typedef struct s_pos {
 	size_t x;
@@ -83,6 +83,7 @@ typedef struct s_pos {
 typedef struct s_img {
 	void	*img;
 	char	*addr;
+	char	*file;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
@@ -98,8 +99,8 @@ typedef struct s_cub3d {
 	char **map;
 	char **map_cp;
 
-	t_img imgs;
-	t_img textures[NB_DIR];
+	t_img *imgs;
+	t_img **textures;
 
 	int		sky[3];
 	int		floor[3];
@@ -153,7 +154,7 @@ t_pos	get_coord(char **map, char c);
 t_pos	get_suiv(char **map, t_pos ind, char c);
 int		get_colour(int *tab, char *line);
 void	get_file(t_cub3d *game, char *file);
-void	str_exist(char *line, t_img *textures, int count);
+void	str_exist(char *line, t_img **textures, int count);
 
 //---------GNL---------//
 char	*get_str(int fd, char *str);

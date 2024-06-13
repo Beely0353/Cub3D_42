@@ -6,7 +6,7 @@
 /*   By: biaroun <biaroun@student.42nice.fr> >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:16:43 by biaroun           #+#    #+#             */
-/*   Updated: 2024/06/11 23:17:07 by biaroun          ###   ########.fr       */
+/*   Updated: 2024/06/13 19:36:00 by biaroun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void init_player(t_cub3d *cub)
 
 	i = 0;
 	j = 0;
-	map = cub->map_cp;
+	map = cub->map;
 	while(map[i])
 	{
 		j = 0;
@@ -71,17 +71,19 @@ void init_tex(t_cub3d *cub)
 {
 	int i;
 
-	cub->imgs.img = mlx_new_image(cub->mlx, WIDTH, HEIGHT);
-	cub->imgs.addr = mlx_get_data_addr(cub->imgs.img, &cub->imgs.bits_per_pixel, &cub->imgs.line_length, &cub->imgs.endian);
+	cub->imgs = calloc(1, sizeof(t_img));
+	if (!cub->imgs)
+	{
+		ft_putstr_fd(ERROR, 2);
+		ft_putstr_fd("allocating images\n", 2);
+		ft_close(1);
+	}
+	cub->imgs->img = mlx_new_image(cub->mlx, WIDTH, HEIGHT);
+	cub->imgs->addr = mlx_get_data_addr(cub->imgs->img, &cub->imgs->bits_per_pixel, &cub->imgs->line_length, &cub->imgs->endian);
 	i = -1;
 	while (++i < NB_DIR)
-	{
-
-		if (cub->textures[i].addr)
-			free(cub->textures[i].addr);
-		cub->textures[i].addr = mlx_get_data_addr(cub->textures[i].img, &cub->textures[i].bits_per_pixel,
-			&cub->textures[i].line_length, &cub->textures[i].endian);
-	}
+		cub->textures[i]->addr = mlx_get_data_addr(cub->textures[i]->img, &cub->textures[i]->bits_per_pixel,
+			&cub->textures[i]->line_length, &cub->textures[i]->endian);
 }
 
 void init_ray(t_cub3d *cub)
@@ -106,4 +108,9 @@ void init_ray(t_cub3d *cub)
 	cub->x = 0;
 	cub->wallX = 0;
 	cub->m = 0;
+	cub->p_FOV[0] = 0;
+	cub->p_FOV[1] = 0.66;
+	for (int i = 0; i < 65536; i++) {
+		cub->key_states[i] = 0;
+	}
 }

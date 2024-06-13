@@ -128,12 +128,12 @@ int	color_calcul(char *line, int *i)
 
 	mult = 1;
 	(*i) --;
-	while (++(*i) && '0' - 1 < line[*i] && line[*i] < '9' + 1) // is_digit
+	while (++(*i) && '0' - 1 < line[*i] && line[*i] < '9' + 1)
 		mult *= 10;
 	while ('0' - 1 < line[*i - 1] && line[*i - 1] < '9' + 1)
 		(*i) --;
 	color_val = 0;
-	while ('0' - 1 < line[*i] && line[*i] < '9' + 1) // is_digit
+	while ('0' - 1 < line[*i] && line[*i] < '9' + 1)
 	{
 		mult /= 10;
 		color_val += mult * (line[*i] - '0');
@@ -159,9 +159,9 @@ int	get_colour(int *tab, char *line)
 	i = 1;
 	while (++color < 3)
 	{
-		while (line[i] < '!' || line[i] > '~') // is_alnum
+		while (line[i] < '!' || line[i] > '~')
 			i ++;
-		if ('0' > line[i] || line[i] > '9') // modifier is_digit
+		if ('0' > line[i] || line[i] > '9')
 		{
 			ft_putstr_fd(ERROR, 2);
 			ft_putstr_fd("line is corrupted\n", 1);
@@ -172,7 +172,7 @@ int	get_colour(int *tab, char *line)
 	}
 	while (line[i])
 	{
-		if (' ' - 1 < line[i] && line[i] < 127) // is_alnum
+		if (' ' < line[i] && line[i] < '~' + 1)
 		{
 			ft_putstr_fd(ERROR, 2);
 			ft_putstr_fd("line is corrupted\n", 1);
@@ -183,26 +183,26 @@ int	get_colour(int *tab, char *line)
 	return (1);
 }
 
-void	str_exist(char *line, t_img *textures, int count)
+void	str_exist(char *line, t_img **textures, int count)
 {
-	if ((!ft_strncmp(EAST, line, ft_strlen(EAST)) && textures[0].addr)
-		|| (!ft_strncmp(WEST, line, ft_strlen(WEST)) && textures[2].addr)
-		|| (!ft_strncmp(NORTH, line, ft_strlen(NORTH)) && textures[1].addr)
-		|| (!ft_strncmp(SOUTH, line, ft_strlen(SOUTH)) && textures[3].addr)
+	if ((!ft_strncmp(EAST, line, ft_strlen(EAST)) && textures[0]->file)
+		|| (!ft_strncmp(WEST, line, ft_strlen(WEST)) && textures[2]->file)
+		|| (!ft_strncmp(NORTH, line, ft_strlen(NORTH)) && textures[1]->file)
+		|| (!ft_strncmp(SOUTH, line, ft_strlen(SOUTH)) && textures[3]->file)
 		|| count > 2)
 	{
 		ft_putstr_fd(ERROR, 2);
 		ft_putstr_fd("line duplicates\n", 1);
 		ft_close(1);
 	}
-	if (!ft_strncmp(EAST, line, ft_strlen(EAST)) && !textures[0].addr)
-		textures[0].addr = ft_strdup(line + 1 + ft_strlen(WEST));
-	if (!ft_strncmp(WEST, line, ft_strlen(WEST)) && !textures[2].addr)
-		textures[2].addr = ft_strdup(line + 1 + ft_strlen(WEST));
-	if (!ft_strncmp(NORTH, line, ft_strlen(NORTH)) && !textures[1].addr)
-		textures[1].addr = ft_strdup(line + 1 + ft_strlen(NORTH));
-	if (!ft_strncmp(SOUTH, line, ft_strlen(SOUTH)) && !textures[3].addr)
-		textures[3].addr = ft_strdup(line + 1 + ft_strlen(SOUTH));
+	if (!ft_strncmp(EAST, line, ft_strlen(EAST)) && !textures[0]->file)
+		textures[0]->file = ft_strdup(line + 1 + ft_strlen(WEST));
+	if (!ft_strncmp(WEST, line, ft_strlen(WEST)) && !textures[2]->file)
+		textures[2]->file = ft_strdup(line + 1 + ft_strlen(WEST));
+	if (!ft_strncmp(NORTH, line, ft_strlen(NORTH)) && !textures[1]->file)
+		textures[1]->file = ft_strdup(line + 1 + ft_strlen(NORTH));
+	if (!ft_strncmp(SOUTH, line, ft_strlen(SOUTH)) && !textures[3]->file)
+		textures[3]->file = ft_strdup(line + 1 + ft_strlen(SOUTH));
 }
 
 void	get_file(t_cub3d *game, char *file)
@@ -230,7 +230,7 @@ void	get_file(t_cub3d *game, char *file)
 	i = -1;
 	while (++i < NB_DIR)
 	{
-		if (count < 2 || !game->textures[i].addr || ft_strlen(game->textures[i].addr) <= ft_strlen(XPM))
+		if (count < 2 || !game->textures[i]->file || ft_strlen(game->textures[i]->file) <= ft_strlen(XPM))
 		{
 			ft_putstr_fd(ERROR, 2);
 			ft_putstr_fd("missing texture(s) .xpm file(s) or\n", 1);

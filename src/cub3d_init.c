@@ -4,19 +4,32 @@ void	make_mlx_items(t_cub3d *game, char *file)
 {
 	int	i;
 
+	game->textures = malloc(NB_DIR * sizeof(t_img *));
+	if (!game->textures)
+	{
+		ft_putstr_fd(ERROR, 2);
+		ft_putstr_fd("allocating textures\n", 2);
+		ft_close(1);
+	}
 	i = -1;
 	while (++i < NB_DIR)
-		game->textures[i].addr = NULL;
+	{
+		game->textures[i] = malloc(sizeof(t_img));
+		if (!game->textures)
+		{
+			ft_putstr_fd(ERROR, 2);
+			ft_putstr_fd("allocating textures\n", 2);
+			ft_close(1);
+		}
+		game->textures[i]->file = NULL;
+		game->textures[i]->addr = NULL;
+	}
 	get_file(game, file);
-	i = -1;
-	while (++i < NB_DIR)
-		game->textures[i].addr[ft_strlen(game->textures[i].addr) - 1] = '\0';
 	make_data_map(game);
 }
 
 void	init_game(char *file, t_cub3d *game)
 {
-
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		return ;

@@ -17,8 +17,6 @@ int	open_fd(char *file)
 		fd = open(file, O_RDONLY);
 		if (fd < 0)
 		{
-			printf("%s\n", file);
-
 			ft_putstr_fd(ERROR, 1);
 			ft_putstr_fd("File didn't open correctly\n", 1);
 		}

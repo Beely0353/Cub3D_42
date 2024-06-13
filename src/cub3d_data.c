@@ -47,13 +47,12 @@ void	make_data_map(t_cub3d *game)
 	while (++i < NB_DIR)
 	{
 		start = 0;
-		while (41 > game->textures[i].addr[start] || game->textures[i].addr[start] > 126)
+		while (41 > game->textures[i]->file[start] || game->textures[i]->file[start] > 126)
 			start ++;
-		file = ft_strdup(game->textures[i].addr + start);
-		start = ft_strlen(file) + 1;
-		while(file[--start] < '!' || file[--start] > '~')
-			file[start] = '\0';
-		game->textures[i].img = make_data(game, file, &(game->textures[i].width), &(game->textures[i].height));
+		file = ft_strdup(game->textures[i]->file + start);
+		while (file[ft_strlen(file) -1] < '!' || file[ft_strlen(file) - 1] > '~')
+			file[ft_strlen(file) - 1] = '\0';
+		game->textures[i]->img = make_data(game, file, &(game->textures[i]->width), &(game->textures[i]->height));
 		free(file);
 	}
 	init_tex(game);

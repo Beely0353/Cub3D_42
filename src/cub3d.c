@@ -6,7 +6,7 @@
 /*   By: biaroun <biaroun@student.42nice.fr> >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 21:52:04 by biaroun           #+#    #+#             */
-/*   Updated: 2024/06/11 23:24:04 by biaroun          ###   ########.fr       */
+/*   Updated: 2024/06/13 19:48:41 by biaroun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,11 @@ void	cub3d(char *file, t_cub3d *game)
 	init_game(file, game);
 	if (!game->map)
 		ft_close(1);
-
+	printf("ok\n");
+	raycasting(game);
 	mlx_hook(game->win, 2, 1L<<0, (void *)key_press, game);
 	mlx_hook(game->win, 3, 1L<<1, (void *)key_release, game);
 	mlx_loop_hook(game->mlx, (void *)move_player, game);
-
-
-//	mlx_hook(game->win, 17, 0, (void *)free_all, game);
-
-
 	mlx_loop(game->mlx);
 }
 

@@ -6,7 +6,7 @@
 /*   By: biaroun <biaroun@student.42nice.fr> >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 14:57:46 by biaroun           #+#    #+#             */
-/*   Updated: 2024/06/11 22:01:17 by biaroun          ###   ########.fr       */
+/*   Updated: 2024/06/13 19:36:21 by biaroun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	ray_init(t_cub3d *cub)
 		cub->deltaDist[1] = INFINITY;
 	else
 		cub->deltaDist[1] = fabs(1 / cub->rayDir[1]);
+	cub->hit = 0;
 }
 
 void	ray_calcdist(t_cub3d *cub)
@@ -73,6 +74,7 @@ void	ray_dda(t_cub3d *cub)
 		}
 		if (cub->map[cub->rayMap[0]][cub->rayMap[1]] == '1')
 			cub->hit = 1;
+		//printf("%d\n", cub->hit);
 	}
 }
 
@@ -86,10 +88,15 @@ void	ray_calcdraw(t_cub3d *cub)
 		cub->wallX = cub->p_pos[0] + cub->perpWallDist * cub->rayDir[0];
 	else
 		cub->wallX = cub->p_pos[1] + cub->perpWallDist * cub->rayDir[1];
+	//printf("sideDist[0] %f deltaDist[0] %f\n", cub->sideDist[0], cub->deltaDist[0]);
+	//printf("sideDist[1] %f deltaDist[1] %f\n", cub->sideDist[1], cub->deltaDist[1]);
 	cub->wallX -= floor(cub->wallX);
+	//printf("start %f\n", cub->wallX);
 	cub->lineHeight = HEIGHT / cub->perpWallDist;
-	cub->drawStart = -(cub->lineHeight / 2) + (HEIGHT / 2);
-	cub->drawEnd = cub->lineHeight / 2 + HEIGHT / 2;
+	cub->drawStart = (int)(-cub->lineHeight / 2) + (HEIGHT / 2);
+	cub->drawEnd = (int)cub->lineHeight / 2 + HEIGHT / 2;
+	//printf("start %f\n", cub->lineHeight);
+	//printf("start %d end %d\n", cub->drawStart, cub->drawEnd);
 }
 
 void	raycasting(t_cub3d *cub)
@@ -107,5 +114,6 @@ void	raycasting(t_cub3d *cub)
 		build_draw(cub);
 		x++;
 	}
-	mlx_put_image_to_window(cub->mlx, cub->win, cub->imgs.img, 0, 0);
+	//printf("dirx %f diry %f\n", cub->p_dir[0], cub->p_dir[1]);
+	mlx_put_image_to_window(cub->mlx, cub->win, cub->imgs->img, 0, 0);
 }
