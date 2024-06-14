@@ -1,16 +1,14 @@
+
+F 255,255,0
+EA ./texture/wall.xpm
 NO ./texture/wall1.xpm
 SO ./texture/ground.xpm
 WE ./texture/wallbed.xpm
-EA ./texture/wall.xpm
-
-F 255,255,0
-C 0,0,255
+C 0,0,0
 
 11111111
 10100001
-1010E001
+1011N001
+10100001
 10000001
-10000101
-11101111
-   1
-
+11111111

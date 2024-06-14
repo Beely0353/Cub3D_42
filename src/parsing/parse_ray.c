@@ -32,19 +32,19 @@ void	init_angleplayer(t_cub3d *cub, char p)
 	}
 	else if (p == 'E')
 	{
-		cub->p_rota = (PI / 4);
+		cub->p_rota = -(PI / 4);
 		cub->p_dir[0] = 0;
 		cub->p_dir[1] = 1;
-		cub->p_FOV[0] = 0;
-		cub->p_FOV[1] = -0.66;
+		cub->p_FOV[0] = -0.66;
+		cub->p_FOV[1] = 0;
 	}
 	else if (p == 'W')
 	{
-		cub->p_rota = -(PI / 4);
+		cub->p_rota = (PI / 4);
 		cub->p_dir[0] = 0;
 		cub->p_dir[1] = -1;
-		cub->p_FOV[0] = 0;
-		cub->p_FOV[1] = 0.66;
+		cub->p_FOV[0] = 0.66;
+		cub->p_FOV[1] = 0;
 	}
 }
 
@@ -65,8 +65,8 @@ void init_player(t_cub3d *cub)
 		{
 			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'W' || map[i][j] == 'E')
 			{
-				cub->p_pos[0] = i;
-				cub->p_pos[1] = j;
+				cub->p_pos[0] = (double)i + 0.5;
+				cub->p_pos[1] = (double)j + 0.5;
 				init_angleplayer(cub, map[i][j]);
 			}
 			j++;
