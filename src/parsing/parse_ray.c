@@ -6,7 +6,7 @@
 /*   By: biaroun <biaroun@student.42nice.fr> >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 23:16:43 by biaroun           #+#    #+#             */
-/*   Updated: 2024/06/13 19:36:00 by biaroun          ###   ########.fr       */
+/*   Updated: 2024/06/14 12:10:02 by biaroun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,32 @@ void	init_angleplayer(t_cub3d *cub, char p)
 		cub->p_rota = (PI / 4);
 		cub->p_dir[0] = -1;
 		cub->p_dir[1] = 0;
+		cub->p_FOV[0] = 0;
+		cub->p_FOV[1] = 0.66;
 	}
 	else if (p == 'S')
 	{
-		cub->p_rota = -(PI / 4);
+		cub->p_rota = (PI / 4);
 		cub->p_dir[0] = 1;
 		cub->p_dir[1] = 0;
+		cub->p_FOV[0] = 0;
+		cub->p_FOV[1] = -0.66;
 	}
 	else if (p == 'E')
 	{
 		cub->p_rota = (PI / 4);
 		cub->p_dir[0] = 0;
 		cub->p_dir[1] = 1;
+		cub->p_FOV[0] = 0;
+		cub->p_FOV[1] = -0.66;
 	}
 	else if (p == 'W')
 	{
 		cub->p_rota = -(PI / 4);
 		cub->p_dir[0] = 0;
 		cub->p_dir[1] = -1;
+		cub->p_FOV[0] = 0;
+		cub->p_FOV[1] = 0.66;
 	}
 }
 
@@ -55,10 +63,10 @@ void init_player(t_cub3d *cub)
 		j = 0;
 		while(map[i][j])
 		{
-			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'W' || map[i][j] == 'O')
+			if (map[i][j] == 'N' || map[i][j] == 'S' || map[i][j] == 'W' || map[i][j] == 'E')
 			{
-				cub->p_pos[0] = j;
-				cub->p_pos[1] = i;
+				cub->p_pos[0] = i;
+				cub->p_pos[1] = j;
 				init_angleplayer(cub, map[i][j]);
 			}
 			j++;
@@ -108,8 +116,6 @@ void init_ray(t_cub3d *cub)
 	cub->x = 0;
 	cub->wallX = 0;
 	cub->m = 0;
-	cub->p_FOV[0] = 0;
-	cub->p_FOV[1] = 0.66;
 	for (int i = 0; i < 65536; i++) {
 		cub->key_states[i] = 0;
 	}
