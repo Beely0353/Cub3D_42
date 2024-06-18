@@ -26,7 +26,7 @@ SRCS			=	cub3d.c cub3d_init.c cub3d_data.c \
 OBJS		=	$(addprefix ${OBJECTS}/, $(SRCS:.c=.o))
 
 MLX_DIR 	=	./minilibx-linux/
-CFLAGS		=	-Wall -Wextra -g -I$(MLX_DIR) -Iinclude -lm
+CFLAGS		=	-Wall -Wextra -Werror -g -I$(MLX_DIR) -Iinclude -lm
 CC			=	gcc
 CINCLUDES	=	-I ${INCLUDES}
 
@@ -38,7 +38,7 @@ endif
 # ---------------------------------------------------------------------------- #
 
 SRCS_COUNT = 0
-SRCS_TOT = ${shell find ./sources/ -type f -name '*.c' | wc -l}
+SRCS_TOT = ${shell find ./src/ -type f -name '*.c' | wc -l}
 SRCS_PRCT = ${shell expr 100 \* ${SRCS_COUNT} / ${SRCS_TOT}}
 BAR =  ${shell expr 23 \* ${SRCS_COUNT} / ${SRCS_TOT}}
 
@@ -46,7 +46,6 @@ ${OBJECTS}/%.o: ${SOURCES}/%.c
 	@${eval SRCS_COUNT = ${shell expr ${SRCS_COUNT} + 1}}
 	@mkdir -p $(dir $@)
 	@${CC} ${CFLAGS} -o $@ -c $< ${CINCLUDES}
-	@echo ""
 	@echo "\r\033[K -> Compilation de ""$(YEL)${notdir $<}$(EOC). ⏳"
 	@printf "   ${BEI}[%-23.${BAR}s] [%d/%d (%d%%)]${DEF}" "***********************" ${SRCS_COUNT} ${SRCS_TOT} ${SRCS_PRCT}
 	@echo "${UP}${UP}${UP}"
