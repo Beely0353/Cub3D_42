@@ -11,14 +11,14 @@ CUR		=	\033[3m
 UL		=	\033[4m
 UP		=	\033[A
 
-NAME		=	cub3d
+NAME		=	cub3D
 
 SOURCES		=	./src
 INCLUDES	=	./include
 OBJECTS		=	./bin
 
 SRCS			=	cub3d.c cub3d_init.c cub3d_data.c \
-					$(addprefix utils/, ft_strfd.c ft_strutils.c get_next_line_bonus.c utils.c str_utils.c str_utils2.c) \
+					$(addprefix utils/, ft_strfd.c ft_strutils.c get_next_line_bonus.c utils.c str_utils.c) \
 					$(addprefix parsing/, cub3d_game_utils.c cub3d_map_parsing.c cub3d_map_utils.c parse_ray.c) \
 					$(addprefix raycasting/, raycasting.c raycasting2.c raycasting_utils.c) move.c \
 
@@ -46,6 +46,7 @@ ${OBJECTS}/%.o: ${SOURCES}/%.c
 	@${eval SRCS_COUNT = ${shell expr ${SRCS_COUNT} + 1}}
 	@mkdir -p $(dir $@)
 	@${CC} ${CFLAGS} -o $@ -c $< ${CINCLUDES}
+	@echo ""
 	@echo "\r\033[K -> Compilation de ""$(YEL)${notdir $<}$(EOC). ⏳"
 	@printf "   ${BEI}[%-23.${BAR}s] [%d/%d (%d%%)]${DEF}" "***********************" ${SRCS_COUNT} ${SRCS_TOT} ${SRCS_PRCT}
 	@echo "${UP}${UP}${UP}"

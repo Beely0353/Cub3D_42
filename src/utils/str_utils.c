@@ -6,59 +6,11 @@
 /*   By: biaroun <biaroun@student.42nice.fr> >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:02:51 by biaroun           #+#    #+#             */
-/*   Updated: 2024/06/11 22:22:20 by biaroun          ###   ########.fr       */
+/*   Updated: 2024/06/19 19:19:08 by biaroun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-/*size_t	ft_strlcpy(char *dest, const char *src, size_t size)
-{
-	size_t	res;
-
-	res = 0;
-	if (size > 0)
-	{
-		while (size > 1 && src[res])
-		{
-			dest[res] = src[res];
-			res++;
-			size--;
-		}
-		dest[res] = 0;
-	}
-	while (src[res] != 0)
-	{
-		res++;
-	}
-	return (res);
-}*/
-
-/*size_t	ft_strlen(const char *s)
-{
-	size_t	len;
-
-	len = 0;
-	while (s && *s != 0)
-	{
-		s++;
-		len++;
-	}
-	return (len);
-}*/
-
-/*int	ft_strncmp(const char *s1, const char *s2)
-{
-	size_t	i;
-
-	i = 0;
-	while ((unsigned char)s1[i] == (unsigned char)s2[i]
-		&& s1[i] != '\0' && s2[i] != '\0')
-	{
-		i++;
-	}
-	return ((unsigned char) s1[i] - (unsigned char) s2[i]);
-}*/
 
 char	*ft_strcat(char *dest, const char *src)
 {
@@ -76,15 +28,68 @@ char	*ft_strcat(char *dest, const char *src)
 	return (dest);
 }
 
-/*char	*ft_strdup(const char *s)
+char	*ft_strchr(const char *s, int c)
 {
-	char	*dest;
-	int		dest_len;
+	char	*str;
+	int		i;
 
-	dest_len = ft_strlen(s);
-	dest = malloc(sizeof(char) * (dest_len + 1));
-	if (!dest)
+	str = (char *) s;
+	i = 0;
+	while (str[i] != (unsigned char) c)
+	{
+		if (str[i] == '\0')
+			return (NULL);
+		i++;
+	}
+	return (str + i);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*str;
+	size_t	i;
+
+	if (!s)
 		return (NULL);
-	ft_strlcpy(dest, s, dest_len);
-	return (dest);
-}*/
+	i = 0;
+	if (start >= ft_strlen(s))
+	{
+		str = malloc(sizeof(char));
+		if (!str)
+			return (NULL);
+		str[i] = '\0';
+		return (str);
+	}
+	if (len < ft_strlen(s))
+		str = malloc(sizeof(char) * (len + 1));
+	else
+		str = malloc (sizeof(char) * (ft_strlen(s) - start + 1));
+	if (!str)
+		return (NULL);
+	start --;
+	while (s[++start] && i < len)
+		str[i++] = s[start];
+	str[i] = '\0';
+	return (str);
+}
+
+char	*ft_strdup(char *src)
+{
+	size_t	i;
+	char	*ptr;
+
+	i = 0;
+	while (src[i])
+		i++;
+	ptr = malloc(sizeof(char) * (i + 1));
+	if (!ptr)
+		return (NULL);
+	i = 0;
+	while (src[i])
+	{
+		ptr[i] = src[i];
+		i ++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
+}

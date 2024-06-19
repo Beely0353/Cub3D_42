@@ -6,7 +6,7 @@
 /*   By: biaroun <biaroun@student.42nice.fr> >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:07:33 by biaroun           #+#    #+#             */
-/*   Updated: 2024/06/13 19:59:43 by biaroun          ###   ########.fr       */
+/*   Updated: 2024/06/19 19:08:29 by biaroun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ void	set_floor(t_cub3d *cub)
 	int	y;
 
 	x = cub->x;
-	y = cub->drawEnd;
-	/*if (y < 0)
-		y = HEIGHT;*/
+	y = cub->draw_end;
 	while (y < HEIGHT - 1)
 	{
 		my_mlx_pixel_put(cub->imgs, x, y, \
@@ -39,19 +37,19 @@ void	set_wall(t_cub3d *cub)
 	texture = get_wall(cub);
 	y_texture = 0;
 	step = (double)((double)texture->height \
-	/ (double)(cub->drawEnd - cub->drawStart));
-	if (cub->drawStart < 0)
+	/ (double)(cub->draw_end - cub->draw_start));
+	if (cub->draw_start < 0)
 	{
-		y_texture = step * cub->drawStart * -1;
-		cub->drawStart = 0;
+		y_texture = step * cub->draw_start * -1;
+		cub->draw_start = 0;
 	}
-	y = cub->drawStart;
-	while (y < cub->drawEnd)
+	y = cub->draw_start;
+	while (y < cub->draw_end)
 	{
 		if (y >= HEIGHT)
 			break ;
 		my_mlx_pixel_put(cub->imgs, cub->x, y, \
-		choose_color(texture, cub->wallX * (double)texture->width, y_texture));
+		choose_color(texture, cub->wall_x * (double)texture->width, y_texture));
 		y++;
 		y_texture += step;
 	}
@@ -64,7 +62,7 @@ void	set_sky(t_cub3d *cub)
 
 	x = cub->x;
 	y = 0;
-	while (y < cub->drawStart)
+	while (y < cub->draw_start)
 	{
 		my_mlx_pixel_put(cub->imgs, x, y, \
 		create_trgb(0, cub->sky[0], cub->sky[1], cub->sky[2]));

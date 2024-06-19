@@ -6,7 +6,7 @@
 /*   By: biaroun <biaroun@student.42nice.fr> >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:11:00 by biaroun           #+#    #+#             */
-/*   Updated: 2024/06/13 19:59:41 by biaroun          ###   ########.fr       */
+/*   Updated: 2024/06/19 19:33:33 by biaroun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ int	choose_color(t_img *img, int x, int y)
 	return (color);
 }
 
-
-t_img	*get_wall(t_cub3d *cub)//a changer
+t_img	*get_wall(t_cub3d *cub)
 {
 	if (cub->side && cub->step[1] < 0)
 		return (cub->textures[1]);

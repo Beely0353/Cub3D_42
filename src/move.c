@@ -6,7 +6,7 @@
 /*   By: biaroun <biaroun@student.42nice.fr> >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:14:41 by biaroun           #+#    #+#             */
-/*   Updated: 2024/06/13 19:23:28 by biaroun          ###   ########.fr       */
+/*   Updated: 2024/06/19 19:16:32 by biaroun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,57 +42,57 @@ void	right_left(t_cub3d *cub)
 	{
 		cub->m = 1;
 		if (cub->map[(int)floor(cub->p_pos[0])] \
-		[(int)floor(cub->p_pos[1] - cub->p_FOV[1] * MOVEMENT)] != '1')
-			cub->p_pos[1] -= cub->p_FOV[1] * MOVEMENT;
-		if (cub->map[(int)floor(cub->p_pos[0] - cub->p_FOV[0] * MOVEMENT)] \
+		[(int)floor(cub->p_pos[1] - cub->p_fov[1] * MOVEMENT)] != '1')
+			cub->p_pos[1] -= cub->p_fov[1] * MOVEMENT;
+		if (cub->map[(int)floor(cub->p_pos[0] - cub->p_fov[0] * MOVEMENT)] \
 		[(int)floor(cub->p_pos[1])] != '1')
-			cub->p_pos[0] -= cub->p_FOV[0] * MOVEMENT;
+			cub->p_pos[0] -= cub->p_fov[0] * MOVEMENT;
 	}
 	if (cub->key_states[KEY_D])
 	{
 		cub->m = 1;
 		if (cub->map[(int)floor(cub->p_pos[0])] \
-		[(int)floor(cub->p_pos[1] + cub->p_FOV[1] * MOVEMENT)] != '1')
-			cub->p_pos[1] += cub->p_FOV[1] * MOVEMENT;
-		if (cub->map[(int)floor(cub->p_pos[0] + cub->p_FOV[0] * MOVEMENT)] \
+		[(int)floor(cub->p_pos[1] + cub->p_fov[1] * MOVEMENT)] != '1')
+			cub->p_pos[1] += cub->p_fov[1] * MOVEMENT;
+		if (cub->map[(int)floor(cub->p_pos[0] + cub->p_fov[0] * MOVEMENT)] \
 		[(int)floor(cub->p_pos[1])] != '1')
-			cub->p_pos[0] += cub->p_FOV[0] * MOVEMENT;
+			cub->p_pos[0] += cub->p_fov[0] * MOVEMENT;
 	}
 }
 
 void	turn_right(t_cub3d *cub)
 {
-	if (cub->key_states[KEY_right])
+	if (cub->key_states[KEY_RIGHT])
 	{
 		cub->m = 1;
-		cub->p_oldDir = cub->p_dir[0];
+		cub->p_old_dir = cub->p_dir[0];
 		cub->p_dir[0] = cub->p_dir[0] * cos(-ROTATION * cub->p_rota) - \
 		cub->p_dir[1] * sin(-ROTATION * cub->p_rota);
-		cub->p_dir[1] = cub->p_oldDir * sin(-ROTATION * cub->p_rota) + \
+		cub->p_dir[1] = cub->p_old_dir * sin(-ROTATION * cub->p_rota) + \
 		cub->p_dir[1] * cos(-ROTATION * cub->p_rota);
-		cub->p_oldFOV = cub->p_FOV[0];
-		cub->p_FOV[0] = cub->p_FOV[0] * cos(-ROTATION * cub->p_rota) - \
-		cub->p_FOV[1] * sin(-ROTATION * cub->p_rota);
-		cub->p_FOV[1] = cub->p_oldFOV * sin(-ROTATION * cub->p_rota) + \
-		cub->p_FOV[1] * cos(-ROTATION * cub->p_rota);
+		cub->p_old_fov = cub->p_fov[0];
+		cub->p_fov[0] = cub->p_fov[0] * cos(-ROTATION * cub->p_rota) - \
+		cub->p_fov[1] * sin(-ROTATION * cub->p_rota);
+		cub->p_fov[1] = cub->p_old_fov * sin(-ROTATION * cub->p_rota) + \
+		cub->p_fov[1] * cos(-ROTATION * cub->p_rota);
 	}
 }
 
 void	turn_left(t_cub3d *cub)
 {
-	if (cub->key_states[KEY_left])
+	if (cub->key_states[KEY_LEFT])
 	{
 		cub->m = 1;
-		cub->p_oldDir = cub->p_dir[0];
+		cub->p_old_dir = cub->p_dir[0];
 		cub->p_dir[0] = cub->p_dir[0] * cos(ROTATION * cub->p_rota) - \
 		cub->p_dir[1] * sin(ROTATION * cub->p_rota);
-		cub->p_dir[1] = cub->p_oldDir * sin(ROTATION * cub->p_rota) + \
+		cub->p_dir[1] = cub->p_old_dir * sin(ROTATION * cub->p_rota) + \
 		cub->p_dir[1] * cos(ROTATION * cub->p_rota);
-		cub->p_oldFOV = cub->p_FOV[0];
-		cub->p_FOV[0] = cub->p_FOV[0] * cos(ROTATION * cub->p_rota) - \
-		cub->p_FOV[1] * sin(ROTATION * cub->p_rota);
-		cub->p_FOV[1] = cub->p_oldFOV * sin(ROTATION * cub->p_rota) + \
-		cub->p_FOV[1] * cos(ROTATION * cub->p_rota);
+		cub->p_old_fov = cub->p_fov[0];
+		cub->p_fov[0] = cub->p_fov[0] * cos(ROTATION * cub->p_rota) - \
+		cub->p_fov[1] * sin(ROTATION * cub->p_rota);
+		cub->p_fov[1] = cub->p_old_fov * sin(ROTATION * cub->p_rota) + \
+		cub->p_fov[1] * cos(ROTATION * cub->p_rota);
 	}
 }
 

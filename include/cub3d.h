@@ -6,7 +6,7 @@
 /*   By: biaroun <biaroun@student.42nice.fr> >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 14:53:19 by biaroun           #+#    #+#             */
-/*   Updated: 2024/06/13 19:30:37 by biaroun          ###   ########.fr       */
+/*   Updated: 2024/06/19 19:21:02 by biaroun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,25 +62,27 @@
 
 # define NB_DIR 4
 
-# define KEY_Z 122
-# define KEY_Q 113
+# define KEY_Z 119
+# define KEY_Q 97
 # define KEY_S 115
 # define KEY_D 100
 # define KEY_N 110
-# define KEY_right 65363
-# define KEY_left 65361
+# define KEY_RIGHT 65363
+# define KEY_LEFT 65361
 # define KEY_ESC 65307
 
 # define PI 3.1415926535
 # define MOVEMENT 0.06
-# define ROTATION 0.005
+# define ROTATION 0.05
 
-typedef struct s_pos {
-	size_t x;
-	size_t y;
-}       t_pos;
+typedef struct s_pos
+{
+	size_t	x;
+	size_t	y;
+}	t_pos;
 
-typedef struct s_img {
+typedef struct s_img
+{
 	void	*img;
 	char	*addr;
 	char	*file;
@@ -88,56 +90,56 @@ typedef struct s_img {
 	int		line_length;
 	int		endian;
 
-    int		width;
+	int		width;
 	int		height;
-}       t_img;
+}	t_img;
 
-typedef struct s_cub3d {
-	void *mlx;
-	void *win;
+typedef struct s_cub3d
+{
+	void	*mlx;
+	void	*win;
 
-	char **map;
-	char **map_cp;
+	char	**map;
+	char	**map_cp;
 
-	t_img *imgs;
-	t_img **textures;
+	t_img	*imgs;
+	t_img	**textures;
 
 	int		sky[3];
 	int		floor[3];
 
-	double p_pos[2];
-	double p_dir[2];
-	double p_FOV[2];
-	double p_oldDir;
-	double p_oldFOV;
-	double p_rota;
+	double	p_pos[2];
+	double	p_dir[2];
+	double	p_fov[2];
+	double	p_old_dir;
+	double	p_old_fov;
+	double	p_rota;
 
-	double cameraX;
-	double rayDir[2];
-	int    rayMap[2];
-	double sideDist[2];
-	double deltaDist[2];
-	double perpWallDist;
+	double	camera_x;
+	double	ray_dir[2];
+	int		ray_map[2];
+	double	side_dist[2];
+	double	delta_dist[2];
+	double	perpwalldist;
 
-	int    step[2];
-	int    hit;
-	int    side;
-	double lineHeight;
+	int		step[2];
+	int		hit;
+	int		side;
+	double	lineheight;
 
-	int drawEnd;
-	int drawStart;
-	int x;
-	double wallX;
+	int		draw_end;
+	int		draw_start;
+	int		x;
+	double	wall_x;
 
-	int m;
+	int		m;
 
-	int key_states[65536]; // Tableau pour stocker l'état de chaque touche
-}       t_cub3d;
+	int		key_states[65536];
+}	t_cub3d;
 
-
-/***********************************************************************************************/
+/***************************************************/
 //-------------------CUB3D-------------------//
-void	cub3d(char *file, t_cub3d *game);
+void	cub3d(char *file);
 
 //-------------------DATA-------------------//
 char	*make_file(char *str1, char *str2, char *str3, char *str4);
@@ -165,9 +167,9 @@ char	*get_next_line(int fd);
 //-------------------INIT-------------------//
 void	init_game(char *file, t_cub3d *game);
 void	init_angleplayer(t_cub3d *cub, char p);
-void 	init_player(t_cub3d *cub);
-void 	init_tex(t_cub3d *cub);
-void 	init_ray(t_cub3d *cub);
+void	init_player(t_cub3d *cub);
+void	init_tex(t_cub3d *cub);
+void	init_ray(t_cub3d *cub);
 
 //-------------------PARSING-------------------//
 void	flood_fill(char **map, size_t pos_x, size_t pos_y);
@@ -186,26 +188,25 @@ size_t	ft_strlcpy(char *dest, char const *src, size_t n);
 char	*ft_strjoin(char const *str, char const *s);
 size_t	ft_strlcat(char *dest, char const *src, size_t n);
 
-
 //-------------------RAYCASTING-------------------//
-void 	raycasting(t_cub3d *cub);
-void 	build_draw(t_cub3d *cub);
-void 	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void	raycasting(t_cub3d *cub);
+void	build_draw(t_cub3d *cub);
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 int		create_trgb(int t, int r, int g, int b);
 int		choose_color(t_img *img, int x, int y);
 t_img	*get_wall(t_cub3d *cub);
 
 //-------------------MOVE-------------------//
-void move_player(t_cub3d *cub);
+void	move_player(t_cub3d *cub);
 
 //---------mlx------
-int 	key_press(int keycode, t_cub3d *cub);
-int 	key_release(int keycode, t_cub3d *cub);
+int		key_press(int keycode, t_cub3d *cub);
+int		key_release(int keycode, t_cub3d *cub);
 void	*ft_calloc(size_t nmemb, size_t size);
 
 //---------str------
 char	*ft_strchr(const char *s, int c);
 
-void free_all(t_cub3d *cub);
+void	free_all(t_cub3d *cub);
 
 #endif
