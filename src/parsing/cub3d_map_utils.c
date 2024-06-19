@@ -121,7 +121,7 @@ t_pos	get_suiv(char **map, t_pos ind, char c)
 	return (ind);
 }
 
-int	color_calcul(char *line, int *i)
+int	color_calcul(char *line, size_t *i)
 {
 	int	mult;
 	int	color_val;
@@ -152,13 +152,19 @@ int	color_calcul(char *line, int *i)
 
 int	get_colour(int *tab, char *line)
 {
-	int	i;
-	int	color;
+	size_t	i;
+	int		color;
 
 	color = -1;
 	i = 1;
 	while (++color < 3)
 	{
+		if (i >= ft_strlen(line) || (i < 2 && (line[i] > '!' && line[i] < '~')))
+		{
+			ft_putstr_fd(ERROR, 2);
+			ft_putstr_fd("line is corrupted\n", 1);
+			ft_close(1);
+		}
 		while (line[i] < '!' || line[i] > '~')
 			i ++;
 		if ('0' > line[i] || line[i] > '9')
@@ -170,6 +176,7 @@ int	get_colour(int *tab, char *line)
 		tab[color] = color_calcul(line, &i);
 		i ++;
 	}
+	i --;
 	while (line[i])
 	{
 		if (' ' < line[i] && line[i] < '~' + 1)
@@ -183,8 +190,11 @@ int	get_colour(int *tab, char *line)
 	return (1);
 }
 
-void	str_exist(char *line, t_img **textures, int count)
+void	str_exist(char *line, t_img **textures, int count_f, int count_c)
 {
+	int	count;
+
+	count = count_f + count_c;
 	if ((!ft_strncmp(EAST, line, ft_strlen(EAST)) && textures[0]->file)
 		|| (!ft_strncmp(WEST, line, ft_strlen(WEST)) && textures[2]->file)
 		|| (!ft_strncmp(NORTH, line, ft_strlen(NORTH)) && textures[1]->file)
@@ -209,28 +219,30 @@ void	get_file(t_cub3d *game, char *file)
 {
 	int		fd;
 	int		i;
-	int		count;
+	int		count_f;
+	int		count_c;
 	char	*line;
 
 	fd = open_fd(file);
 	if (fd < 0)
 		return;
-	count = 0;
+	count_f = 0;
+	count_c = 0;
 	line = get_next_line(fd);
 	while (line)
 	{
-		str_exist(line, game->textures, count);
+		str_exist(line, game->textures, count_f, count_c);
 		if (line[0] == FLOOR)
-			count += get_colour(game->floor, line);
+			count_f += get_colour(game->floor, line);
 		if (line[0] == CEILING)
-			count += get_colour(game->sky, line);
+			count_c += get_colour(game->sky, line);
 		free(line);
 		line = get_next_line(fd);
 	}
 	i = -1;
 	while (++i < NB_DIR)
 	{
-		if (count < 2 || !game->textures[i]->file || ft_strlen(game->textures[i]->file) <= ft_strlen(XPM))
+		if (count_c < 1 || count_f < 1 || !game->textures[i]->file || ft_strlen(game->textures[i]->file) <= ft_strlen(XPM))
 		{
 			ft_putstr_fd(ERROR, 2);
 			ft_putstr_fd("missing texture(s) .xpm file(s) or\n", 1);

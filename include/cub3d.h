@@ -154,7 +154,7 @@ t_pos	get_coord(char **map, char c);
 t_pos	get_suiv(char **map, t_pos ind, char c);
 int		get_colour(int *tab, char *line);
 void	get_file(t_cub3d *game, char *file);
-void	str_exist(char *line, t_img **textures, int count);
+void	str_exist(char *line, t_img **textures, int count_f, int count_c);
 
 //---------GNL---------//
 char	*get_str(int fd, char *str);
