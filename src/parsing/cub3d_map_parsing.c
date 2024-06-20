@@ -6,7 +6,7 @@
 /*   By: biaroun <biaroun@student.42nice.fr> >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 19:27:36 by biaroun           #+#    #+#             */
-/*   Updated: 2024/06/19 19:27:38 by biaroun          ###   ########.fr       */
+/*   Updated: 2024/06/20 18:41:59 by biaroun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	check_path(char **map)
 
 int	check_map(char **map)
 {
-	int inst;
+	int	inst;
 
 	inst = get_nb_inst(map, PS) + get_nb_inst(map, PW)
 		+ get_nb_inst(map, PN) + get_nb_inst(map, PE);

@@ -6,7 +6,7 @@
 /*   By: biaroun <biaroun@student.42nice.fr> >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/05 16:14:41 by biaroun           #+#    #+#             */
-/*   Updated: 2024/06/19 19:16:32 by biaroun          ###   ########.fr       */
+/*   Updated: 2024/06/20 18:57:19 by biaroun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,6 @@ void	move_player(t_cub3d *cub)
 	right_left(cub);
 	turn_right(cub);
 	turn_left(cub);
-	if (cub->m)
-	{
-		cub->m = 0;
-		raycasting(cub);
-	}
+	mlx_clear_window(cub->mlx, cub->win);
+	raycasting(cub);
 }
