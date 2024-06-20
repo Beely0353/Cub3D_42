@@ -33,18 +33,16 @@ void	*make_data(t_cub3d *game, char *file, int *x, int *y)
 
 	fd = open_fd(file);
 	if (fd < 0)
-		ft_close(1);
+		put_error("while opening a file\n");
 	close(fd);
 	data = mlx_xpm_file_to_image(game->mlx, file, x, y);
 	if (!data)
 	{
 		if (!file)
-			ft_putstr_fd("NULL", 1);
+			ft_putstr_fd("NULL", 2);
 		else
-			ft_putstr_fd(file, 1);
-		ft_putstr_fd(ERROR, 2);
-		ft_putstr_fd("while trying to create .xpm image\n", 1);
-		ft_close(1);
+			ft_putstr_fd(file, 2);
+		put_error("while trying to create .xpm image\n");
 	}
 	return (data);
 }

@@ -87,11 +87,7 @@ void	init_tex(t_cub3d *cub)
 
 	cub->imgs = calloc(1, sizeof(t_img));
 	if (!cub->imgs)
-	{
-		ft_putstr_fd(ERROR, 2);
-		ft_putstr_fd("allocating images\n", 2);
-		ft_close(1);
-	}
+		put_error("allocating images\n");
 	cub->imgs->img = mlx_new_image(cub->mlx, WIDTH, HEIGHT);
 	cub->imgs->addr = mlx_get_data_addr(cub->imgs->img,
 			&cub->imgs->bits_per_pixel,
@@ -100,7 +96,8 @@ void	init_tex(t_cub3d *cub)
 	while (++i < NB_DIR)
 		cub->textures[i]->addr = mlx_get_data_addr(cub->textures[i]->img,
 				&cub->textures[i]->bits_per_pixel,
-				&cub->textures[i]->line_length, &cub->textures[i]->endian);
+				&cub->textures[i]->line_length,
+				&cub->textures[i]->endian);
 }
 
 void	init_ray(t_cub3d *cub)

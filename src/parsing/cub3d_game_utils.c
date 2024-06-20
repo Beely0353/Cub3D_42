@@ -12,6 +12,13 @@
 
 #include "cub3d.h"
 
+void put_error(char *msg)
+{
+	ft_putstr_fd(ERROR, 2);
+	ft_putstr_fd(msg, 2);
+	ft_close(1);
+}
+
 int	open_fd(char *file)
 {
 	int	fd;
@@ -19,19 +26,14 @@ int	open_fd(char *file)
 	fd = open(file, O_DIRECTORY);
 	if (fd >= 0)
 	{
-		ft_putstr_fd(ERROR, 1);
-		ft_putstr_fd("Directory is open\n", 1);
 		close(fd);
-		ft_close(1);
+		put_error("Directory is open\n");
 	}
 	else
 	{
 		fd = open(file, O_RDONLY);
 		if (fd < 0)
-		{
-			ft_putstr_fd(ERROR, 1);
-			ft_putstr_fd("File didn't open correctly\n", 1);
-		}
+			put_error("File didn't open correctly\n");
 	}
 	return (fd);
 }

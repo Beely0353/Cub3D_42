@@ -38,7 +38,6 @@
 # define NAME "cub3d"
 
 # define ERROR "Error\n"
-# define INV_ENT_NUM "Invalid number of player, start instance\n"
 
 # define HEIGHT 600
 # define WIDTH  1000
@@ -147,6 +146,7 @@ void	*make_data(t_cub3d *game, char *file, int *x, int *y);
 void	make_data_map(t_cub3d *game);
 
 //-------------------UTILS-------------------//
+void	put_error(char *msg);
 int		open_fd(char *file);
 size_t	get_nb_inst(char **map, char c);
 int		ft_close(int val_exit);

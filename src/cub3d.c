@@ -18,10 +18,7 @@ void	cub3d(char *file)
 
 	game = malloc(sizeof(t_cub3d));
 	if (!game)
-	{
-		perror("while allocating\n");
-		exit(-1);
-	}
+		put_error("while allocating\n");
 	game->map_cp = get_map(file);
 	if (!game->map_cp || check_map(game->map_cp))
 		ft_close(1);
@@ -41,17 +38,11 @@ int	main(int argc, char **argv)
 	size_t	len;
 
 	if (argc != 2)
-	{
-		perror("required argument number is 2\n");
-		return (-1);
-	}
+		put_error("required argument number is 2\n");
 	len = ft_strlen(CUB);
 	if (argv[1][ft_strlen(argv[1]) - len - 1] == '/'
 		|| ft_strncmp(&argv[1][ft_strlen(argv[1]) - len], CUB, len))
-	{
-		perror("File not compatible\n");
-		return (-1);
-	}
+		put_error("File not compatible\n");
 	fd = open_fd(argv[1]);
 	if (fd >= 0)
 		cub3d(argv[1]);

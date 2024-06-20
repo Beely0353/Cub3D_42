@@ -27,7 +27,8 @@ int	check_open(char **map)
 		while (map[ind.y][ind.x])
 		{
 			if (map[ind.y][ind.x] == PS || map[ind.y][ind.x] == PW
-				|| map[ind.y][ind.x] == PN || map[ind.y][ind.x] == PE)
+				|| map[ind.y][ind.x] == PN
+				|| map[ind.y][ind.x] == PE)
 				flood_fill(map, ind.x, ind.y);
 			ind.x ++;
 		}
@@ -47,17 +48,9 @@ void	flood_fill(char **map, size_t pos_x, size_t pos_y)
 		&& map[pos_y][pos_x] != PS && map[pos_y][pos_x] != PW
 		&& map[pos_y][pos_x] != PN && map[pos_y][pos_x] != PE
 		&& map[pos_y][pos_x])
-	{
-		ft_putstr_fd(ERROR, 2);
-		ft_putstr_fd("An invalid character is in the file\n", 2);
-		ft_close(1);
-	}
+		put_error("An invalid character is in the file\n");
 	if (!pos_x || pos_x == ft_strlen(map[pos_y]) || !pos_y || pos_y == i)
-	{
-		ft_putstr_fd(ERROR, 2);
-		ft_putstr_fd("Map is open (extemity can be reach)\n", 2);
-		ft_close(1);
-	}
+		put_error("Map is open (extemity can be reach)\n");
 	if (map[pos_y][pos_x] == WALL)
 		return ;
 	map[pos_y][pos_x] = WALL;
@@ -81,10 +74,14 @@ int	check_path(char **map)
 		ind.x = 0;
 		while (map[ind.y][ind.x])
 		{
-			if (map[ind.y][ind.x] != WALL && map[ind.y][ind.x] != GROUND
-				&& map[ind.y][ind.x] != PS && map[ind.y][ind.x] != PW
-				&& map[ind.y][ind.x] != PN && map[ind.y][ind.x] != PE
-				&& map[ind.y][ind.x] != ' ' && map[ind.y][ind.x])
+			if (map[ind.y][ind.x] != WALL
+				&& map[ind.y][ind.x] != GROUND
+				&& map[ind.y][ind.x] != PS
+				&& map[ind.y][ind.x] != PW
+				&& map[ind.y][ind.x] != PN
+				&& map[ind.y][ind.x] != PE
+				&& map[ind.y][ind.x] != ' '
+				&& map[ind.y][ind.x])
 				return (-1);
 			ind.x ++;
 		}
@@ -97,23 +94,13 @@ int	check_map(char **map)
 {
 	int inst;
 
-	inst = get_nb_inst(map, PS) + get_nb_inst(map, PW) + get_nb_inst(map, PN) + get_nb_inst(map, PE);
+	inst = get_nb_inst(map, PS) + get_nb_inst(map, PW)
+		+ get_nb_inst(map, PN) + get_nb_inst(map, PE);
 	if (!map || inst != 1)
-	{
-		ft_putstr_fd(INV_ENT_NUM, 2);
-		return (-1);
-	}
+		put_error("Invalid number of player, start instance\n");
 	if (check_path(map))
-	{
-		ft_putstr_fd(ERROR, 2);
-		ft_putstr_fd("An invalid character is in the file\n", 2);
-		return (-1);
-	}
+		put_error("An invalid character is in the file\n");
 	if (check_open(map))
-	{
-		ft_putstr_fd(ERROR, 2);
-		ft_putstr_fd("Map is open\n", 2);
-		return (-1);
-	}
+		put_error("Map is open\n");
 	return (0);
 }

@@ -18,21 +18,13 @@ void	make_mlx_items(t_cub3d *game, char *file)
 
 	game->textures = malloc(NB_DIR * sizeof(t_img *));
 	if (!game->textures)
-	{
-		ft_putstr_fd(ERROR, 2);
-		ft_putstr_fd("allocating textures\n", 2);
-		ft_close(1);
-	}
+		put_error("allocating textures\n");
 	i = -1;
 	while (++i < NB_DIR)
 	{
 		game->textures[i] = malloc(sizeof(t_img));
 		if (!game->textures)
-		{
-			ft_putstr_fd(ERROR, 2);
-			ft_putstr_fd("allocating textures\n", 2);
-			ft_close(1);
-		}
+			put_error("allocating textures\n");
 		game->textures[i]->file = NULL;
 		game->textures[i]->addr = NULL;
 	}
