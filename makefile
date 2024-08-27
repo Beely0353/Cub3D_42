@@ -1,4 +1,4 @@
-RED		=	\033[31mdata->ndata->ray.wall_x
+RED		=	\033[31m
 GRE		=	\033[32m
 BLU		=	\033[36m
 YEL		=	\033[33m
